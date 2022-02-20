@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <!-- Challenge 1 Title -->
+ <head>
+   <meta charset="utf-8">
+   <title> Midterm </title>
+ </head>
+ <body>
+   <!-- Required header -->
+  <h1 style="font-size: 50px;">Midterm Site</h1>
+
+  <!-- Height Range Dropbox -->
+  <form>
+    <label for="inHeight">Height in cms:</label>
+    <select name="inHeight" id="inHeight" onchange="height_range()">
+      <option value="140">Any</option>
+      <option value="150">150-160</option>
+      <option value="160">160-170</option>
+      <option value="170">170-180</option>
+      <option value="180">180-190</option>
+    </select>
+
+    <!-- Age Range Dropbox -->
+    <label for="inAge">Age:</label>
+    <select name="inAge" id="inAge" onchange="age_range()">
+      <option value="10">Any</option>
+      <option value="20">20-30</option>
+      <option value="30">30-40</option>
+      <option value="40">40-50</option>
+      <option value="50">50-60</option>
+      <option value="60">60-70</option>
+    </select>
+  </form>
+  
+
+  
+
+   <!-- Display button and resulting image display -->
+   <input type="button" value="Submit" onclick="click_display()">
+   <br>
+   <br>
+   <label for="image">Image: </label>
+   <img src="" id="image">
+   <br>
+   <br>
+   <label for="Owner">Owner: </label>
+   <p id="Owner"></p>
+
+   
+   <script type="text/javascript" src="rest.js"></script>
+ </body>
+</html>
+
