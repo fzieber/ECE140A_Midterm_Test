@@ -28,8 +28,7 @@ buzzerPin= 31
 
 def setup():
     GPIO.setmode(GPIO.BOARD)     
-    GPIO.setup(trigPin, GPIO.OUT)   # set trigPin to OUTPUT mode
-    GPIO.setup(echoPin, GPIO.IN)    # set echoPin to INPUT mode
+
     GPIO.setup(buzzerPin, GPIO.OUT)   
 
 def Buzzer(alarm):
@@ -48,7 +47,7 @@ db_name = os.environ['MYSQL_DATABASE']
 
 
 
-def get_photo(req):
+def get_data(req):
     # Save boundries from age and height range inputs
     minTime = int(req.matchdict['minTime'])
     maxTime = int(req.matchdict['maxTime'])
@@ -92,6 +91,7 @@ def get_photo(req):
 
     # if no record found, return error json
     if record is None:
+        print("empty table")
         return {
             'error': "No data was found for the given ID",
             'id': "",
@@ -133,7 +133,7 @@ if __name__ == '__main__':
        
        # Binds the function get_photo to the photos route and returns JSON
        # Note: This is a REST route because we are returning a RESOURCE!
-       config.add_view(get_photo, route_name='data', renderer='json')
+       config.add_view(get_data, route_name='data', renderer='json')
       
        
        

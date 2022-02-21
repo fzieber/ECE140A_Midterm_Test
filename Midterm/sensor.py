@@ -64,7 +64,7 @@ def setup():
     GPIO.setmode(GPIO.BOARD)     
     GPIO.setup(trigPin, GPIO.OUT)   # set trigPin to OUTPUT mode
     GPIO.setup(echoPin, GPIO.IN)    # set echoPin to INPUT mode
-    GPIO.setup(buzzerPin, GPIO.OUT)   
+  
 
 
 
