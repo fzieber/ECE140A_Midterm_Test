@@ -21,31 +21,19 @@ cursor.execute("CREATE DATABASE IF NOT EXISTS Midterm_db;")
 cursor.execute("USE Midterm_db")
 
 # Delete existing, then Create Gallery_Details table
-cursor.execute("DROP TABLE IF EXISTS Gallery_Details;")
+cursor.execute("DROP TABLE IF EXISTS Data_Table;")
 
 try:
     cursor.execute("""
-    CREATE TABLE Gallery_Details (
+    CREATE TABLE Data_Table (
       id          integer  AUTO_INCREMENT PRIMARY KEY,
-      name        VARCHAR(50) NOT NULL,
-      owner       VARCHAR(50) NOT NULL,    
-      height      integer NOT NULL,
-      age         integer NOT NULL
+      temperature    float(4,2) NOT NULL,
+      humidity       float(4,2) NOT NULL,    
+      distance      float(5,2) NOT NULL,
     );
   """)
 except RuntimeError as err:
     print("runtime error: {0}".format(err))
 
-
-# Load data from details.csv into table 
-cursor.execute("""
-    LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/details.csv'
-    INTO TABLE Gallery_Details
-    FIELDS TERMINATED BY ','
-    ENCLOSED BY '"'
-    LINES TERMINATED BY '\n'
-    IGNORE 1 ROWS;
-
-  """)
 db.commit()
 
