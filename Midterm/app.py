@@ -83,12 +83,12 @@ if __name__ == '__main__':
        config.add_view(index_page, route_name='home')
       
        # Create a route that handles server HTTP requests at: /photos/height/age
-       config.add_route('photos', '/photos/{inHeight}/{inAge}')
+       config.add_route('data', '/data/{minTime}/{maxTime}/{minDist}/{maxDist}/{alarm}')
       
        
        # Binds the function get_photo to the photos route and returns JSON
        # Note: This is a REST route because we are returning a RESOURCE!
-       config.add_view(get_photo, route_name='photos', renderer='json')
+       config.add_view(get_photo, route_name='data', renderer='json')
       
        
        

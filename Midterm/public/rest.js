@@ -47,6 +47,9 @@ function click_display() {
             // Set the value of the img_src attribute of the img tag
             // and Owner value to relevant data from response, or
             // placeholders for no range inputs
+
+            responseAsTable = response //TODO
+
             if ((sTime == eTime)&&(sDist == eDist)){
                 
                 let result = document.getElementById('result') 
@@ -57,7 +60,7 @@ function click_display() {
             else{
                 
                 let result = document.getElementById('result') 
-                result.innerHTML = response
+                result.innerHTML = responseAsTable
 
                 
                 
