@@ -17,6 +17,30 @@ import mysql.connector as mysql
 from dotenv import load_dotenv
 import os
 
+#/usr/bin/env python3
+import RPi.GPIO as GPIO
+import time
+
+trigPin = 16
+echoPin = 18
+MAX_DISTANCE = 220          # define maximum measuring distance, unit: cm
+timeOut = MAX_DISTANCE*60   # calculate timeout w.r.t to maximum distance
+buzzerPin= 31
+
+def setup():
+    GPIO.setmode(GPIO.BOARD)     
+    GPIO.setup(trigPin, GPIO.OUT)   # set trigPin to OUTPUT mode
+    GPIO.setup(echoPin, GPIO.IN)    # set echoPin to INPUT mode
+    GPIO.setup(buzzerPin, GPIO.OUT)   
+
+def Buzzer(alarm):
+    if alarm == 'true':
+        GPIO.output(buzzerPin,GPIO.HIGH)
+    else:
+        GPIO.output(buzzerPin,GPIO.LOW)
+
+
+
 load_dotenv('credentials.env')
 db_host = os.environ['MYSQL_HOST']
 db_user = os.environ['MYSQL_USER']
@@ -27,16 +51,31 @@ db_name = os.environ['MYSQL_DATABASE']
 
 def get_photo(req):
     # Save boundries from age and height range inputs
-    ageMin = int(req.matchdict['inAge'])
-    if (ageMin == 9):
-       ageMax = 70
+    minTime = int(req.matchdict['minTime'])
+    maxTime = int(req.matchdict['maxTime'])
+    if (minTime < maxTime):
+       temp = minTime
+       minTime = maxTime
+       maxTime = temp
+    minDist = float(req.matchdict['minDist'])
+    maxDist = float(req.matchdict['maxDist'])
+    if (minDist < maxDist):
+       temp = minDist
+       minDist = maxDist
+       maxDist = temp
+    alarm = str(req.matchdict['alarm'])
+    Buzzer(alarm)
+    
+    if(minTime == maxTime):
+       minTime = 0
+       maxTime = 100 
     else:
-       ageMax = ageMin + 11
-    heightMin = int(req.matchdict['inHeight'])
-    if (heightMin == 139):
-       heightMax = 190
-    else:
-       heightMax = heightMin + 11
+       minTime = minTime - 1
+       maxTime = maxTime + 1
+    if(minDist == maxDist):
+       minDist = 0.0
+       maxDist = 220.00 
+    
 
     # connect to the database
     db = mysql.connect(host=db_host, user=db_user,
@@ -45,25 +84,30 @@ def get_photo(req):
 
     # query the database with the range constraints
     cursor.execute(
-        "SELECT id,name,owner,height,age FROM Gallery_Details WHERE age > '%s' AND age < '%s' AND height > '%s' AND height < '%s';" 
-                                                               % (ageMin, ageMax, heightMin, heightMax))
-    record = cursor.fetchone()
+        "SELECT id,temperature,humidity,distance FROM Data_Table WHERE id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
+                                                               % (minTime, maxTime, minDist, maxDist))
+    record = cursor.fetchall()
     db.close()
+
+    response = []
 
     # if no record found, return error json
     if record is None:
         return {
             'error': "No data was found for the given ID",
             'id': "",
-            'name': "",
-            'owner': "",
-            'height': "",
-            'age':""
+            'temperature': "",
+            'humidity': "",
+            'distance': "",
         }
-
-    # populate json with relevant values
-    response = {"id":record[0], "img_src": record[1], "img_own":record[2]}
-
+    else :
+       for row in record:
+          response.append({
+             'id': row[0],
+             'temperature': row[1],
+             'humidity': row[2],
+             'distance': row[3]
+          })
     return response
 
 
@@ -75,6 +119,8 @@ def index_page(req):
 
 # Main entrypoint
 if __name__ == '__main__':
+
+   setup()
    with Configurator() as config:
  
        # Create a route called home
@@ -82,7 +128,7 @@ if __name__ == '__main__':
        # Bind the view (defined by index_page) to the route named ‘home’
        config.add_view(index_page, route_name='home')
       
-       # Create a route that handles server HTTP requests at: /photos/height/age
+       # Create a route that handles server HTTP requests at: /data/minTime/maxTime/minDist/maxDist/alarm
        config.add_route('data', '/data/{minTime}/{maxTime}/{minDist}/{maxDist}/{alarm}')
       
        
