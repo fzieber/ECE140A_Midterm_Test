@@ -32,7 +32,7 @@ MAX_DISTANCE = 220          # define maximum measuring distance, unit: cm
 timeOut = MAX_DISTANCE*60   # calculate timeout w.r.t to maximum distance
 buzzerPin= 31
 
-entryNum = 1
+id = 1
 
 load_dotenv('credentials.env')
 db_host = os.environ['MYSQL_HOST']
@@ -69,7 +69,7 @@ def setup():
 
 
 def loop():
-    global entryNum
+    global id
     dht = DHT.DHT(DHTPin) #create a DHT class object
     counts = 0 # Measurement counts
     while(True):
@@ -85,9 +85,9 @@ def loop():
                 print("DHT11,OK!")
                 break
             time.sleep(0.1)
-        hum = dht.humidity
-        temp = dht.temperature
-        cursor.execute("""INSERT INTO Data_Table VALUES (entryNum, temp, hum, distance);""")
+        humidity = dht.humidity
+        temperature = dht.temperature
+        cursor.execute("""INSERT INTO Data_Table VALUES (id, temperature, humidity, distance);""")
         print("Humidity : %.2f, \t Temperature : %.2f \n"%(dht.humidity,dht.temperature))
         time.sleep(2)
        
