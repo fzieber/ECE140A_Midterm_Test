@@ -29,7 +29,7 @@ try:
       id          integer  AUTO_INCREMENT PRIMARY KEY,
       temperature    float(4,2) NOT NULL,
       humidity       float(4,2) NOT NULL,    
-      distance      float(5,2) NOT NULL,
+      distance      float(5,2) NOT NULL
     );
   """)
 except RuntimeError as err:
