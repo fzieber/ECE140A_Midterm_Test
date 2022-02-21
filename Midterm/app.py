@@ -7,8 +7,7 @@ from pyramid.config import Configurator
 # Response is used to respond to requests to the server
 from pyramid.response import FileResponse
 
-# Import OpenCV
-import cv2
+
 
 # Import NumPy
 import numpy as np
