@@ -1,20 +1,4 @@
-// Save Input Height
-function height_range() {
-    let inputHeight = document.getElementById('inHeight').value - 1;
-    
-    return inputHeight;
-    
-    
-  }
 
-  // Save Input Age
-  function age_range() {
-    let inputAge = document.getElementById('inAge').value - 1;
-
-    return inputAge;
-
-    
-  }
 
 isWarning = false
   // Save Input Height
@@ -31,8 +15,10 @@ function toggle_warning(isToggled) {
 
 function click_display() {
     // Get the current value from the text input box
-    let inHeight = height_range()
-    let inAge = age_range()
+    let sTime = document.getElementById('minTime').value
+    let eTime = document.getElementById('maxTime').value
+    let sDist = document.getElementById('minDist').value
+    let eDist = document.getElementById('maxDist').value
     let alarm = toggle_warning(false)
   
     // This URL path is going to be the route defined in app.py

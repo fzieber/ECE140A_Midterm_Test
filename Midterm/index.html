@@ -11,25 +11,14 @@
 
   <!-- Height Range Dropbox -->
   <form>
-    <label for="inHeight">Height in cms:</label>
-    <select name="inHeight" id="inHeight" onchange="height_range()">
-      <option value="140">Any</option>
-      <option value="150">150-160</option>
-      <option value="160">160-170</option>
-      <option value="170">170-180</option>
-      <option value="180">180-190</option>
-    </select>
-
-    <!-- Age Range Dropbox -->
-    <label for="inAge">Age:</label>
-    <select name="inAge" id="inAge" onchange="age_range()">
-      <option value="10">Any</option>
-      <option value="20">20-30</option>
-      <option value="30">30-40</option>
-      <option value="40">40-50</option>
-      <option value="50">50-60</option>
-      <option value="60">60-70</option>
-    </select>
+    <label for="minTime"> Start Time of Search (integer): </label>
+    <input type="text" id="minTime" name="minTime"><br><br>
+    <label for="maxTime"> End Time of Search (integer): </label>
+    <input type="text" id="maxTime" name="maxTime"><br><br>
+    <label for="minDist"> Minimum Distance to Closest Person (float(5,3)): </label>
+    <input type="text" id="minDist" name="minDist"><br><br>
+    <label for="maxDist"> Maximum Distance to Closest Person (float(5,3)): </label>
+    <input type="text" id="maxDist" name="maxDist"><br><br>
   </form>
   
 
@@ -43,13 +32,15 @@
    <input type="button" value="Warning!" onclick="toggle_warning(True)">
    <br>
    <br>
-   <label for="image">Image: </label>
-   <img src="" id="image">
-   <br>
-   <br>
-   <label for="Owner">Owner: </label>
-   <p id="Owner"></p>
-
+   <label for="result">Matching Results: </label>
+   <table id = "result">
+    <tr>
+      <th> Time </th>
+      <th> Temperature </th>
+      <th> Humidity </th>
+      <th> Distance </th>
+    </tr>
+  </table>
    
    <script type="text/javascript" src="rest.js"></script>
  </body>
