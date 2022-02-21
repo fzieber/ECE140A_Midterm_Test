@@ -15,16 +15,16 @@ function toggle_warning(isToggled) {
 
 function click_display() {
     // Get the current value from the text input box
-    let sTime = document.getElementById('minTime').value
-    let eTime = document.getElementById('maxTime').value
-    let sDist = document.getElementById('minDist').value
-    let eDist = document.getElementById('maxDist').value
-    let alarm = toggle_warning(false)
+    let sTime = document.getElementById('minTime').value;
+    let eTime = document.getElementById('maxTime').value;
+    let sDist = document.getElementById('minDist').value;
+    let eDist = document.getElementById('maxDist').value;
+    let alarm = toggle_warning(false);
 
     if (sTime > eTime){
-        temp = sTime
-        sTime = eTime
-        eTime = temp
+        temp = sTime;
+        sTime = eTime;
+        eTime = temp;
 
     }
     if (sDist > eDist){
@@ -48,22 +48,47 @@ function click_display() {
             // and Owner value to relevant data from response, or
             // placeholders for no range inputs
 
-            responseAsTable = response //TODO
+            var cols = [];
+            for (var i = 0; i < response.length; i++){
+                for (var k in response[i]){
+                    if (cols.indexOf(k)===-1){
+                        cols.push(k);
+
+                    }
+
+                }
+
+            }
+
+            var table = document.createElement("table");
+
+            var tableRow = table.insertRow(-1);
+            
+            for(var i=0; i<cols.length; i++){
+                var tableHeader = document.createElement("th");
+                tableHeader.innerHTML = cols[i];
+                tableRow.appendChild(tableHeader);
+
+            }
+
+            for(var i=0; i<response.length; i++){
+                tRow = table.insertRow(-1);
+                for(var j=0; j<cols.length; j++){
+                    var cell = tRow.insertCell(-1);
+                    cell.innerHTML = response[i][cols[j]];
+
+                }
+
+
+            }
+            let result = document.getElementById('result');
 
             if ((sTime == eTime)&&(sDist == eDist)){
-                
-                let result = document.getElementById('result') 
-                result.innerHTML = "<table><tr><td> Time </td><td> Temperature </td><td> Humidity </td><td> Distance </td></tr></table>"
-                
-                
+                result.innerHTML = "<table><tr><td> Time </td><td> Temperature </td><td> Humidity </td><td> Distance </td></tr></table>";   
             }
             else{
-                
-                let result = document.getElementById('result') 
-                result.innerHTML = responseAsTable
-
-                
-                
+                result.innerHTML = "";
+                result.appendChild(table);
             }
                 
                      
