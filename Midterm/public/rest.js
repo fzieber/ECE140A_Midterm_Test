@@ -16,12 +16,24 @@ function height_range() {
     
   }
 
+isWarning = false
+  // Save Input Height
+function toggle_warning(isToggled) {
+    if (isToggled){
+        isWarning = !isWarning;
+    }
+    
+    return isWarning;
+    
+    
+  }
 // display button function
 
 function click_display() {
     // Get the current value from the text input box
     let inHeight = height_range()
     let inAge = age_range()
+    let alarm = toggle_warning(false)
   
     // This URL path is going to be the route defined in app.py
     let theURL='/photos/'+inHeight + '/'+inAge;
