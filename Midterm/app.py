@@ -1,4 +1,5 @@
 # Import WSGI ref for importing the serving library
+from unittest import result
 from wsgiref.simple_server import make_server
 
 # Configurator defines all the settings and configs in your web app
@@ -51,13 +52,13 @@ def get_data(req):
     # Save boundries from age and height range inputs
     minTime = int(req.matchdict['minTime'])
     maxTime = int(req.matchdict['maxTime'])
-    if (minTime < maxTime):
+    if (minTime > maxTime):
        temp = minTime
        minTime = maxTime
        maxTime = temp
     minDist = float(req.matchdict['minDist'])
     maxDist = float(req.matchdict['maxDist'])
-    if (minDist < maxDist):
+    if (minDist > maxDist):
        temp = minDist
        minDist = maxDist
        maxDist = temp
@@ -80,9 +81,16 @@ def get_data(req):
                        passwd=db_pass, database=db_name)
     cursor = db.cursor()
 
+    
+  
+    print(minTime)
+    print(maxTime)
+    print(minDist)
+    print (maxDist)
+
     # query the database with the range constraints
     cursor.execute(
-        "SELECT id,temperature,humidity,distance FROM Data_Table WHERE id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
+        "SELECT * FROM Data_Table WHERE id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
                                                                % (minTime, maxTime, minDist, maxDist))
     record = cursor.fetchall()
     db.close()
@@ -101,7 +109,9 @@ def get_data(req):
         }
     else :
        print("saving table")
+       print(record)
        for row in record:
+          print(row)
           response.append({
              'id': row[0],
              'temperature': row[1],

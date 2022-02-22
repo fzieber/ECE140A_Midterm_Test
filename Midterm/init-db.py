@@ -27,8 +27,8 @@ try:
     cursor.execute("""
     CREATE TABLE Data_Table (
       id          integer  AUTO_INCREMENT PRIMARY KEY,
-      temperature    float(4,2) NOT NULL,
-      humidity       float(4,2) NOT NULL,    
+      temperature    float(5,2) NOT NULL,
+      humidity       float(5,2) NOT NULL,    
       distance      float(5,2) NOT NULL
     );
   """)
