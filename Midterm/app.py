@@ -94,7 +94,7 @@ def get_data(req):
 
     # query the database with the range constraints
     cursor.execute(
-        "SELECT * FROM Data_Table WHERE temperature > -10.0 AND id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
+        "SELECT * FROM Data_Table WHERE temperature > -100.0 AND id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
                                                                % (minTime, maxTime, minDist, maxDist))
     record = cursor.fetchall()
     db.close()
