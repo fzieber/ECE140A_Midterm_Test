@@ -16,11 +16,11 @@ db = mysql.connect(user=db_user, password=db_pass,
                    host=db_host)
 cursor = db.cursor()
 
-# Create Triton_Gallery Database
+# Create Midterm_db Database
 cursor.execute("CREATE DATABASE IF NOT EXISTS Midterm_db;")
 cursor.execute("USE Midterm_db")
 
-# Delete existing, then Create Gallery_Details table
+# Delete existing, then Create Data_Table table
 cursor.execute("DROP TABLE IF EXISTS Data_Table;")
 
 try:

@@ -27,11 +27,13 @@ MAX_DISTANCE = 220          # define maximum measuring distance, unit: cm
 timeOut = MAX_DISTANCE*60   # calculate timeout w.r.t to maximum distance
 buzzerPin= 31
 
+# GPIO setup
 def setup():
     GPIO.setmode(GPIO.BOARD)     
 
     GPIO.setup(buzzerPin, GPIO.OUT)   
 
+# Set Buzzer when applicable
 def Buzzer(alarm):
     if alarm == 'true':
         GPIO.output(buzzerPin,GPIO.HIGH)
@@ -49,7 +51,7 @@ db_name = os.environ['MYSQL_DATABASE']
 
 
 def get_data(req):
-    # Save boundries from age and height range inputs
+    # Save boundries from inputs
     minTime = int(req.matchdict['minTime'])
     maxTime = int(req.matchdict['maxTime'])
     if (minTime > maxTime):
@@ -90,7 +92,7 @@ def get_data(req):
 
     # query the database with the range constraints
     cursor.execute(
-        "SELECT * FROM Data_Table WHERE id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
+        "SELECT * FROM Data_Table WHERE temperature > -10.0 AND id > '%s' AND id < '%s' AND distance > '%s' AND distance < '%s';" 
                                                                % (minTime, maxTime, minDist, maxDist))
     record = cursor.fetchall()
     db.close()
@@ -151,9 +153,6 @@ if __name__ == '__main__':
  
        # Add a static view
        # This command maps the folder “./public” to the URL “/”
-       # So when a user requests img_src with age range 20-30, the server knows to look
-       # for it in: “public/geisel_x.jpg” where x is the first image with a
-       # corresponding age between 20 and 29
        config.add_static_view(name='/', path='./public', cache_max_age=3600)
       
        # Create an app with the configuration specified above

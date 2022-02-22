@@ -75,11 +75,9 @@ def loop():
     counts = 0 # Measurement counts
     while(True):
         distance = getSonar() # get distance
-        print("The distance is : %.2f cm" % (distance))
 
 
-        counts += 1
-        print("Measurement counts: ", counts)
+        counts += 1   # get temperature and humidity 
         for i in range(0,15): 
             chk = dht.readDHT11()
             if (chk is dht.DHTLIB_OK):
@@ -88,19 +86,16 @@ def loop():
             time.sleep(0.1)
         humidity = dht.humidity
         temperature = dht.temperature
+
+        # Save to db
         db = mysql.connect(host=db_host, user=db_user,
                        passwd=db_pass, database=db_name)
         cursor = db.cursor()
-        print(id)
-        print(temperature)
-        print(humidity)
-        print (distance)
         sql = "INSERT INTO Data_Table (id, temperature, humidity, distance) VALUES (%s, %s, %s, %s)"
         val = (id, temperature, humidity, distance)
         cursor.execute(sql, val)
         db.commit()
         db.close
-        print("Humidity : %.2f, \t Temperature : %.2f \n"%(dht.humidity,dht.temperature))
         id = id + 1
         time.sleep(2)
        

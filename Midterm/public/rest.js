@@ -26,6 +26,7 @@ function click_display() {
     let eDist = document.getElementById('maxDist').value;
     let alarm = toggle_warning('false');
 
+    //fix input order
     if (sTime > eTime){
         temp = sTime;
         sTime = eTime;
@@ -49,9 +50,7 @@ function click_display() {
         .then(response=>response.json()) // Convert response to JSON
         // Run the anonymous function on the received JSON response
         .then(function(response) {
-            // Set the value of the img_src attribute of the img tag
-            // and Owner value to relevant data from response, or
-            // placeholders for no range inputs
+            // Set the value of the table based on response json
 
             var cols = [];
             for (var i = 0; i < response.length; i++){
@@ -87,6 +86,8 @@ function click_display() {
 
             }
             let result = document.getElementById('result');
+
+            //empty table for no query
 
             if ((sTime == eTime)&&(sDist == eDist)){
                 result.innerHTML = "<table><tr><td> Time </td><td> Temperature </td><td> Humidity </td><td> Distance </td></tr></table>";   
