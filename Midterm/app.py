@@ -100,6 +100,7 @@ def get_data(req):
             'distance': "",
         }
     else :
+       print("saving table")
        for row in record:
           response.append({
              'id': row[0],
