@@ -76,7 +76,9 @@ def get_data(req):
     if(minDist == maxDist):
        minDist = 0.0
        maxDist = 220.00 
-    
+    else:
+       minDist = minDist - 0.01
+       maxDist = maxDist + 0.01 
 
     # connect to the database
     db = mysql.connect(host=db_host, user=db_user,

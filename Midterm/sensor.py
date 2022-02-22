@@ -78,12 +78,12 @@ def loop():
 
 
         counts += 1   # get temperature and humidity 
-        for i in range(0,15): 
+        for i in range(0,1000): 
             chk = dht.readDHT11()
             if (chk is dht.DHTLIB_OK):
                 print("DHT11,OK!")
                 break
-            time.sleep(0.1)
+            time.sleep(0.01)
         humidity = dht.humidity
         temperature = dht.temperature
 
@@ -91,6 +91,7 @@ def loop():
         db = mysql.connect(host=db_host, user=db_user,
                        passwd=db_pass, database=db_name)
         cursor = db.cursor()
+        print("ID: ", id,"Temp: ", temperature,"Humidity: ", humidity,"Distance: ", distance)
         sql = "INSERT INTO Data_Table (id, temperature, humidity, distance) VALUES (%s, %s, %s, %s)"
         val = (id, temperature, humidity, distance)
         cursor.execute(sql, val)
