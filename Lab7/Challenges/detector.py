@@ -14,12 +14,18 @@ import cv2
 import numpy as np
 
 # JSON which maps photos to ID
-geisel_photos = [
+plate_photos = [
  {"id":1, "img_src": "Arizona 47.jpg"},
  {"id":2, "img_src": "Delaware Plate.jpg"},
 ]
 
+def detect_plate(img): # TODO
+   return img, [[-1,-1],[-1,-1],[-1,-1],[-1,-1]]
 
+
+
+def get_text(): # TODO
+   return "XXXXXXX"
 
 # function to access data
 def get_photo(req):
@@ -27,7 +33,11 @@ def get_photo(req):
    # the -1 is needed because arrays are 0-indexed
    idx = int(req.matchdict['photo_id'])-1
    # we return the value at the given index from geisel_photos
-   return geisel_photos[idx]
+   imgJson = plate_photos[idx]
+   img = imgJson["img_src"] 
+   roi, coord = detect_plate(img)
+   text = get_text()
+   return {"img_src": roi, "text": text}
 
 
 
@@ -46,15 +56,11 @@ if __name__ == '__main__':
       
        # Create a route that handles server HTTP requests at: /photos/photo_id
        config.add_route('photos', '/photos/{photo_id}')
-       # Create a route that handles server HTTP requests at: /prices/photo_id
-       config.add_route('prices', '/prices/{photo_id}')
+
        # Binds the function get_photo to the photos route and returns JSON
        # Note: This is a REST route because we are returning a RESOURCE!
        config.add_view(get_photo, route_name='photos', renderer='json')
-       # Binds the function get_price to the pricess route and returns JSON
-       # Note: This is a REST route because we are returning a RESOURCE!
-       config.add_view(get_price, route_name='prices', renderer='json')
- 
+       
        # Add a static view
        # This command maps the folder “./public” to the URL “/”
        # So when a user requests geisel-1.jpg as img_src, the server knows to look

@@ -19,6 +19,13 @@ function click_display() {
             // to the value received from the server
             let img = document.getElementById('image') 
             img.src = response['img_src']
+            let text = document.getElementById('plate')
+            if (text == "XXXXXXXX"){
+                text.innerHTML = "Car Not Detected. Number Plate: XXXXXXX"
+            }
+            else{
+                text.innerHTML = "Car Detected. Number Plate: " + response["text"]
+            }
         });
   }
 
