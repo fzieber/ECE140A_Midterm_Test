@@ -36,7 +36,7 @@ def get_photo(req):
    imgJson = plate_photos[idx]
    img = imgJson["img_src"] 
    roi, coord = detect_plate(img)
-   text = get_text()
+   text = get_text(roi)
    return {"img_src": roi, "text": text}
 
 
