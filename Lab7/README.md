@@ -19,7 +19,7 @@ In this Tutorial, we learned how to use image processing and tesseract to read t
 
 ## Challenge:
 
-For the Midterm, we decided to use the ultrasonic ranging module and the DHT-11 hygrothermograph as our two inputs to store four elements to a table in our MYSQL database: id, temperature, humidity, and distance. id is uniquely designated by the "cycle from start". We then use a Restful route to collect data from the table as a JSON and display the values based the query criteria. Said criteria consists of a valid temperature reading (>-100 degrees), and the two input criteria of time (cycles from start) and distance, both of which ask for an input min and an input max value to construct the ranges for the query. Finally, there is a warning button so that if pushed, a variable is toggled, so that the next submit button push will result in either the buzzer and LED will turn on or off, depending on the newly set variable.
+For the Challenge, we intend to use what we learned in the tutorial to create a dinamic webpage and sql database that takes an image, finds a liscence plate in the image, reads the text from it, displays relevant image and text, and saves image, timestamp, and text to the table in the sql database.
 
 For a demo, follow the following link:
 
@@ -28,8 +28,7 @@ For a demo, follow the following link:
 
 ### How to use:
 
-For our code to run, be sure to create the database Midterm\_db and grant relevant privileges, as well as overwrite credentials.env with appropriate credentials. After this is done, open two terminals on your computer (not the Raspberry) and ssh into the Raspberry. Next run init-db.py in one terminal to initialize the table, then run sensor.py to collect data. While its running, or after you stop it, use the other terminal (or same one if sensor was stopped) and run app.py from here. Now, the site is running on localhost:6543 on the Raspberry! Use a means of accessing the Raspberry's desktop (such as VNC Viewer), pull up localhost:6543, and the site should load. From here, change the input ranges to how you prefer, hit Submit, and a table of relevant data, or ean empty table will load on screen. If you wish to "alert the hardware operator" (activate the buzzer) press
-the Warning button and hit submit. Repeat this process to turn off the buzzer.
+For our code to run, be sure to create the database Plate\_db and grant relevant privileges, as well as overwrite credentials.env with appropriate credentials. After this is done, run init-db.py to initialize the table, then run detector.py. Now, the site is running on localhost:6543 on the Raspberry! Use a means of accessing the Raspberry's desktop (such as VNC Viewer), pull up localhost:6543, and the site should load. From here, change the input to the image you prefer, hit Display, and the image and relevant text will load on screen.
 
 
 ### File Descriptions:
