@@ -18,7 +18,7 @@ function click_display() {
             // Set the value of the img_src attribute of the img tag
             // to the value received from the server
             let img = document.getElementById('image') 
-            img.src = response['img_src']
+            img.src = 'images/' + response['img_src']
             let text = document.getElementById('plate')
             if (text == "XXXXXXXX"){
                 text.innerHTML = "Car Not Detected. Number Plate: XXXXXXX"

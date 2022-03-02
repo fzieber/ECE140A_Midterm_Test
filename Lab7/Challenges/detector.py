@@ -15,8 +15,9 @@ import numpy as np
 
 # JSON which maps photos to ID
 plate_photos = [
- {"id":1, "img_src": "Arizona 47.jpg"},
- {"id":2, "img_src": "Delaware Plate.jpg"},
+ {"id":1, "img_src": "Arizona_47.jpg"},
+ {"id":2, "img_src": "Delaware_Plate.png"},
+ {"id":3, "img_src": "Contrast.jpg"}
 ]
 
 def detect_plate(img): # TODO
@@ -24,7 +25,7 @@ def detect_plate(img): # TODO
 
 
 
-def get_text(): # TODO
+def get_text(roi): # TODO
    return "XXXXXXX"
 
 # function to access data
