@@ -23,11 +23,9 @@ plate_photos = [
 def detect_plate(img): # TODO
 
    # Read the image
-   image_url = "./images/" + img
+   image_url = "./public/images/" + img
    image = cv2.imread(image_url, 0)
    # 0 is a simple alias for cv2.IMREAD_GRAYSCALE
-
-   """
    # Preprocessing
    
    # Add a Gaussian Blur to smoothen the noise
@@ -62,10 +60,15 @@ def detect_plate(img): # TODO
    # Handle cases when no quadrilaterals are found        
    if type(location) != type(None):
       print("Corners of the contour are: ",location)
+      # cropping image before return
+      imgCrop = image[min(location[0][0][1],location[3][0][1]):max(location[1][0][1],location[2][0][1]),min(location[0][0][0],location[1][0][0]):max(location[2][0][0],location[3][0][0])]
+      cv2.imwrite("./public/images/Crop" + img , imgCrop)
+      return img,location 
    else:
       print("No quadrilaterals found")
-   """
-   return img, [[-1,-1],[-1,-1],[-1,-1],[-1,-1]]
+      return img, [[-1,-1],[-1,-1],[-1,-1],[-1,-1]]
+
+   
 
 
 
