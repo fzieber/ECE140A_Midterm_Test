@@ -69,8 +69,15 @@ def detect_plate(img): # TODO
 
 
 
-def get_text(roi): # TODO
-   return "XXXXXXX"
+def get_text(roi): 
+   text = pytesseract.image_to_string(
+            roi, lang='eng', config='--psm 7 --oem 3 ')
+   if (len(text)<7):
+      return "XXXXXXX"
+   elif (len(text)>7):
+      return "XXXXXXX"
+   else:
+      return text
 
 # function to access data
 def get_photo(req):
