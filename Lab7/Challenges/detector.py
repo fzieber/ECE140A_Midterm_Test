@@ -21,6 +21,50 @@ plate_photos = [
 ]
 
 def detect_plate(img): # TODO
+
+   # Read the image
+   image_url = "./images/" + img
+   image = cv2.imread(image_url, 0)
+   # 0 is a simple alias for cv2.IMREAD_GRAYSCALE
+
+   """
+   # Preprocessing
+   
+   # Add a Gaussian Blur to smoothen the noise
+   blur = cv2.GaussianBlur(image.copy(), (9, 9), 0)
+   
+   # Threshold the image to get a binary image
+   _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+   
+   # Invert the image to swap the foreground and background
+   invert = 255 - thresh
+   
+   # Dilate the image to join disconnected fragments
+   kernel = np.array([[0., 1., 0.], [1., 1., 1.], [0., 1., 0.]], np.uint8)
+   dilated = cv2.dilate(invert, kernel)
+   
+   # Get contours
+   contours, hierarchy = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+   # Find the largest 15 contours
+   contours = sorted(contours, key=cv2.contourArea, reverse=True)[:15]
+
+   # Find best polygon and get location
+   location = None
+
+   # Finds rectangular contour
+   for contour in contours:
+      approx = cv2.approxPolyDP(contour, 15, True)
+      if len(approx) == 4:
+         location = approx
+         break
+
+   # Handle cases when no quadrilaterals are found        
+   if type(location) != type(None):
+      print("Corners of the contour are: ",location)
+   else:
+      print("No quadrilaterals found")
+   """
    return img, [[-1,-1],[-1,-1],[-1,-1],[-1,-1]]
 
 
