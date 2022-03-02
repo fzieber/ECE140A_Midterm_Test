@@ -121,11 +121,11 @@ def puzzle(out):
 
 def solve(out, row, col, num):
     for x in range(9):
-        if out[row][x] == num:
+        if int(out[row][x]) == num:
             return False
              
     for x in range(9):
-        if out[x][col] == num:
+        if int(out[x][col]) == num:
             return False
  
  
@@ -133,7 +133,7 @@ def solve(out, row, col, num):
     startCol = col - col % 3
     for i in range(3):
         for j in range(3):
-            if out[i + startRow][j + startCol] == num:
+            if int(out[i + startRow][j + startCol]) == num:
                 return False
     return True
 
@@ -147,13 +147,14 @@ def Suduko(out, row, col):
     if col == N:
         row += 1
         col = 0
-    if out[row][col] > 0:
+    
+    if int(out[row][col]) > 0:
         return Suduko(out, row, col + 1)
     for num in range(1, N + 1, 1): 
      
         if solve(out, row, col, num):
          
-            out[row][col] = num
+            out[row][col] = str(num)
             if Suduko(out, row, col + 1):
                 return True
         out[row][col] = 0
