@@ -7,11 +7,31 @@ from pyramid.config import Configurator
 # Response is used to respond to requests to the server
 from pyramid.response import FileResponse
 
+import pytesseract
+
 # Import OpenCV
 import cv2
 
 # Import NumPy
 import numpy as np
+
+"""
+import os
+
+if os.path.exists("./public/images/CropArizona_47.jpg"):
+  os.remove("./public/images/CropArizona_47.jpg")
+if os.path.exists("./public/images/CropDelaware_Plate.png"):
+  os.remove("./public/images/CropDelaware_Plate.png")
+if os.path.exists("./public/images/CropContrast.jpg"):
+  os.remove("./public/images/CropContrast.jpg")
+
+if os.path.exists("./public/images/PostArizona_47.jpg"):
+  os.remove("./public/images/PostArizona_47.jpg")
+if os.path.exists("./public/images/PostDelaware_Plate.png"):
+  os.remove("./public/images/PostDelaware_Plate.png")
+if os.path.exists("./public/images/PostContrast.jpg"):
+  os.remove("./public/images/PostContrast.jpg")
+"""
 
 # JSON which maps photos to ID
 plate_photos = [
@@ -27,23 +47,31 @@ def detect_plate(img): # TODO
    image = cv2.imread(image_url, 0)
    # 0 is a simple alias for cv2.IMREAD_GRAYSCALE
    # Preprocessing
-   
+   """
    # Add a Gaussian Blur to smoothen the noise
    blur = cv2.GaussianBlur(image.copy(), (9, 9), 0)
    
    # Threshold the image to get a binary image
-   _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-   
+   #_, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+   thresh = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY,11,2)
+
    # Invert the image to swap the foreground and background
    invert = 255 - thresh
    
    # Dilate the image to join disconnected fragments
    kernel = np.array([[0., 1., 0.], [1., 1., 1.], [0., 1., 0.]], np.uint8)
    dilated = cv2.dilate(invert, kernel)
-   
+   """
+   thresh = cv2.bilateralFilter(image.copy(), 13, 15, 15)
+   dilated = cv2.Canny(thresh, 30, 200)
+   #dilated = cv2.Sobel(image,cv2.CV_64F,1,1,ksize=15)
+
+   # Save Post Processing image
+   #cv2.imwrite("./public/images/Post" + img , dilated)
+
    # Get contours
    contours, hierarchy = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
+   
    # Find the largest 15 contours
    contours = sorted(contours, key=cv2.contourArea, reverse=True)[:15]
 
@@ -52,7 +80,8 @@ def detect_plate(img): # TODO
 
    # Finds rectangular contour
    for contour in contours:
-      approx = cv2.approxPolyDP(contour, 15, True)
+      #approx = cv2.approxPolyDP(contour, 15, True)
+      approx =  cv2.minAreaRect(contour) 
       if len(approx) == 4:
          location = approx
          break
@@ -73,14 +102,21 @@ def detect_plate(img): # TODO
 
 
 def get_text(roi): 
-   text = pytesseract.image_to_string(
-            roi, lang='eng', config='--psm 7 --oem 3 ')
+   # Read the image
+   image_url = "./public/images/Crop" + roi
+   #imageCrop = cv2.imread(image_url, 0)
+   
+   #text = pytesseract.image_to_string(image_url, config='--psm 7 --oem 3 ')
+   #text = pytesseract.image_to_string(image_url, lang='eng', config='--psm 7 --oem 3 ')
+   """
    if (len(text)<7):
       return "XXXXXXX"
    elif (len(text)>7):
       return "XXXXXXX"
    else:
-      return text
+   """
+   #return text
+   return "XXXXXX"
 
 # function to access data
 def get_photo(req):
