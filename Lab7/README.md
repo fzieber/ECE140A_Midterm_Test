@@ -19,11 +19,17 @@ In this Tutorial, we learned how to use image processing and tesseract to read t
 
 ## Challenge:
 
-For the Challenge, we intend to use what we learned in the tutorial to create a dinamic webpage and sql database that takes an image, finds a liscence plate in the image, reads the text from it, displays relevant image and text, and saves image, timestamp, and text to the table in the sql database.
+For the Challenge, we intend to use what we learned in the tutorial to create a dinamic webpage and sql database that takes an image, finds a liscence plate in the image, reads the text from it, displays relevant image and text, and saves image, timestamp, and text to the table in the sql database. We highly recomend running our submission on a Raspberry Pi for better results.
+
+If we were to use a live video feed, we would most likely run a seperate file that is contantly taking pictures every 150 frames and saving them to the list, and change the input in the html into a number for the image saved id. Most, if not all, of the rest of the code can remain the same.
 
 For a demo, follow the following link:
 
-[Challenge Video Demo!](https://m.youtube.com/watch?v=SGZRxeeTkvE)
+[Challenge Video Demo!](https://youtu.be/sUnncxxp7hc)
+
+The image with best results using the Raspberry Pi is here:
+
+![Contrast.jpg](./Challenges/public/images/Contrast.jpg)
 
 
 ### How to use:

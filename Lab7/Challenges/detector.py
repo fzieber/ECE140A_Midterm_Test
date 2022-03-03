@@ -16,6 +16,7 @@ import cv2
 import numpy as np
 
 
+
 import os
 """
 if os.path.exists("./public/images/CropArizona_47.jpg"):
@@ -36,8 +37,8 @@ if os.path.exists("./public/images/PostContrast.jpg"):
 # JSON which maps photos to ID
 plate_photos = [
  {"id":1, "img_src": "Arizona_47.jpg"},
- {"id":2, "img_src": "Delaware_Plate.png"},
- {"id":3, "img_src": "Contrast.jpg"}
+ {"id":2, "img_src": "Contrast.jpg"},
+ {"id":3, "img_src": "Delaware_Plate.png"}
 ]
 
 def detect_plate(img): # TODO
@@ -109,7 +110,7 @@ def get_text(roi):
    if os.path.exists(image_url):
       imageCrop = cv2.imread(image_url, 0)
       #text = pytesseract.image_to_string(image_url, config='--psm 7 --oem 3 ')
-      text = pytesseract.image_to_string(image_url, lang='eng', config='--psm 7 --oem 3 ')
+      text = pytesseract.image_to_string(image_url, lang='eng', config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
       return text
    else:
       return "XXXXXX"
