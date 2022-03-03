@@ -15,9 +15,9 @@ import cv2
 # Import NumPy
 import numpy as np
 
-"""
-import os
 
+import os
+"""
 if os.path.exists("./public/images/CropArizona_47.jpg"):
   os.remove("./public/images/CropArizona_47.jpg")
 if os.path.exists("./public/images/CropDelaware_Plate.png"):
@@ -80,11 +80,13 @@ def detect_plate(img): # TODO
 
    # Finds rectangular contour
    for contour in contours:
-      #approx = cv2.approxPolyDP(contour, 15, True)
-      approx =  cv2.minAreaRect(contour) 
+      approx = cv2.approxPolyDP(contour, 15, True)
+      #approx =  cv2.minAreaRect(contour) 
+      #print("Approx: " , approx)
       if len(approx) == 4:
          location = approx
          break
+   #print("Location: ", location)
 
    # Handle cases when no quadrilaterals are found        
    if type(location) != type(None):
@@ -104,19 +106,22 @@ def detect_plate(img): # TODO
 def get_text(roi): 
    # Read the image
    image_url = "./public/images/Crop" + roi
-   #imageCrop = cv2.imread(image_url, 0)
-   
-   #text = pytesseract.image_to_string(image_url, config='--psm 7 --oem 3 ')
-   #text = pytesseract.image_to_string(image_url, lang='eng', config='--psm 7 --oem 3 ')
+   if os.path.exists(image_url):
+      imageCrop = cv2.imread(image_url, 0)
+      #text = pytesseract.image_to_string(image_url, config='--psm 7 --oem 3 ')
+      text = pytesseract.image_to_string(image_url, lang='eng', config='--psm 7 --oem 3 ')
+      return text
+   else:
+      return "XXXXXX"
    """
    if (len(text)<7):
       return "XXXXXXX"
    elif (len(text)>7):
       return "XXXXXXX"
    else:
+      return text
    """
-   #return text
-   return "XXXXXX"
+   
 
 # function to access data
 def get_photo(req):
