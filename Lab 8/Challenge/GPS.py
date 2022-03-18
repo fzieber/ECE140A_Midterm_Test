@@ -2,6 +2,8 @@ import serial               #import serial package
 from time import sleep
 import webbrowser           #import package for opening link in browser
 import sys                  #import system package
+#import reverse_geocode
+
 
 def GPS_Info():
    #Create variables to store values
@@ -38,27 +40,48 @@ def convert_to_degrees(raw_value):
    position = "%.4f" %(position)
    return position
 
-
-
 gpgga_info = "$GPGGA,"
 ser = serial.Serial ("/dev/serial0")              #Open port with baud rate
 GPGGA_buffer = 0
 NMEA_buff = 0
-lat_in_degrees = 0
-long_in_degrees = 0
+lat_in_degrees = 0.0
+long_in_degrees = 0.0
+City = "No City"
+def getCoord(value):
 
-try:
-   while True:
-       received_data = (str)(ser.readline())                   #read NMEA string received
-       GPGGA_data_available = received_data.find(gpgga_info)   #check for NMEA GPGGA string
-       if (GPGGA_data_available>0):
-           GPGGA_buffer = received_data.split("$GPGGA,",1)[1]  #store data coming after "$GPGGA," string
-           NMEA_buff = (GPGGA_buffer.split(','))               #store comma separated data in buffer
-           GPS_Info()                                          #get time, latitude, longitude
+    # Collect global variables
+    global gpgga_info
+    global ser               
+    global GPGGA_buffer
+    global NMEA_buff
+    global lat_in_degrees
+    global long_in_degrees
+    global City
+    val = value
+    # Return default values if no object found
+    if (val == False):
+        lat_in_degrees = 0.0
+        long_in_degrees = 0.0
+        City = "No City"
+        return lat_in_degrees, long_in_degrees, City
 
-           print("lat in degrees:", lat_in_degrees," long in degree: ", long_in_degrees, '\n')
-           map_link = 'http://maps.google.com/?q=' + lat_in_degrees + ',' + long_in_degrees    #create link to plot location on Google map
-           print(map_link)               #press ctrl+c to plot on map and exit
-           print("------------------------------------------------------------\n")
-except KeyboardInterrupt:
-   sys.exit(0)
+    try:
+       while val:
+           received_data = (str)(ser.readline())                   #read NMEA string received
+           GPGGA_data_available = received_data.find(gpgga_info)   #check for NMEA GPGGA string
+           if (GPGGA_data_available>0):
+               GPGGA_buffer = received_data.split("$GPGGA,",1)[1]  #store data coming after "$GPGGA," string
+               NMEA_buff = (GPGGA_buffer.split(','))               #store comma separated data in buffer
+               
+               print(NMEA_buff)
+               GPS_Info()                                          #get time, latitude, longitude
+
+               print("lat in degrees:", lat_in_degrees," long in degree: ", long_in_degrees, '\n')
+               map_link = 'http://maps.google.com/?q=' + lat_in_degrees + ',' + long_in_degrees    #create link to plot location on Google map
+               print(map_link)               #press ctrl+c to plot on map and exit
+               print("------------------------------------------------------------\n")
+               val = False
+               City = "La Jolla"
+               return lat_in_degrees, long_in_degrees, City
+    except KeyboardInterrupt:
+       sys.exit(0)
